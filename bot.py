@@ -1,10 +1,7 @@
-import os
-import telegram
-import requests
+import os, telegram, requests, logging
 from dotenv import load_dotenv
-import logging
 from omdb import get_movie_info
-from telegram import Update
+from telegram import Update, InputMediaPhoto
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
 
 load_dotenv()
@@ -23,7 +20,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 #     await context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
-
 
 async def ratings(update: Update, context: ContextTypes.DEFAULT_TYPE):
     movie_name = update.message.text
@@ -44,6 +40,8 @@ async def ratings(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f"Director:\n{movie_info['director']}\n\n" +
             f"Runtime:\n{movie_info['runtime']}" 
             ) 
+
+        await context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(movie_info['poster'])])
     else:
         message_text = f"Movie '{movie_name}' not found. Check for typos and try again."
     
