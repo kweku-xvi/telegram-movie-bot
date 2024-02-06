@@ -15,6 +15,7 @@ def get_movie_info(movie_title):
 
     movie_info = {}
     movie_info["title"] = response.get("Title")
+    movie_info["poster"] = response.get("Poster")
     movie_info["genre"] = response.get("Genre")
     movie_info["year"] = response.get("Year")
     movie_info["plot"] = response.get("Plot")
